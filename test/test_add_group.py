@@ -1,6 +1,10 @@
+from model.group import Group
+
+
 def test_add_group(app):
     old_list = app.groups.get_group_list()
-    app.groups.add_new_group("test group")
+    group = Group(name="test group")
+    app.groups.add_new_group(group)
     new_list = app.groups.get_group_list()
-    old_list.append("test")
-    assert sorted(old_list) == sorted(new_list)
+    old_list.append(group)
+    assert sorted(old_list, key=Group.name) == sorted(new_list, key=Group.name)

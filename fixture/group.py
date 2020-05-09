@@ -1,21 +1,27 @@
+from model.group import Group
+
+
 class GroupHelper:
 
     def __init__(self, app):
         self.app = app
 
     def get_group_list(self):
+        group_list = []
         self.open_group_editor()
         tree = self.group_editor.window(auto_id="uxAddressTreeView")
         root = tree.tree_root()
-        group_list = [node.text() for node in root.children()]
+        for node in root.children():
+            name = node.text()
+            group_list.append(Group(name=name))
         self.close_group_editor()
         return group_list
 
-    def add_new_group(self, name):
+    def add_new_group(self, group):
         self.open_group_editor()
         self.group_editor.window(auto_id="uxNewAddressButton").click()
         input = self.group_editor.window(class_name="Edit")
-        input.set_text(name)
+        input.set_text(group.name)
         input.type_keys("\n")
         self.close_group_editor()
 
